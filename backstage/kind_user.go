@@ -1,10 +1,19 @@
 package backstage
 
+import (
+	"context"
+	"net/http"
+)
+
+// KindUser defines name for user kind.
+const KindUser = "User"
+
 // UserEntityV1alpha1 describes a person, such as an employee, a contractor, or similar. Users belong to Group entities in the catalog.
 // These catalog user entries are connected to the way that authentication within the Backstage ecosystem works.
 // https://github.com/backstage/backstage/blob/master/packages/catalog-model/src/schema/kinds/User.v1alpha1.schema.json
 type UserEntityV1alpha1 struct {
 	Entity
+
 	// ApiVersion is always "backstage.io/v1alpha1".
 	ApiVersion string `json:"apiVersion"`
 
@@ -33,4 +42,21 @@ type UserEntityV1alpha1 struct {
 		// ordered in any particular way. The entries of this array are entity references.
 		MemberOf []string `json:"memberOf,omitempty"`
 	} `json:"spec"`
+}
+
+// userService handles communication with the user methods of the Backstage Catalog API.
+type userService typedEntityService[UserEntityV1alpha1]
+
+// newUserService returns a new instance of user-type entityService.
+func newUserService(s *entityService) *userService {
+	return &userService{
+		client:  s.client,
+		apiPath: s.apiPath,
+	}
+}
+
+// Get returns a user entity identified by the name and the namespace ("default", if not specified) it belongs to.
+func (s *userService) Get(ctx context.Context, n string, ns string) (*UserEntityV1alpha1, *http.Response, error) {
+	cs := (typedEntityService[UserEntityV1alpha1])(*s)
+	return cs.get(ctx, KindUser, n, ns)
 }

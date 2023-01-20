@@ -1,10 +1,19 @@
 package backstage
 
+import (
+	"context"
+	"net/http"
+)
+
+// KindGroup defines name for group kind.
+const KindGroup = "Group"
+
 // GroupEntityV1alpha1 describes an organizational entity, such as for example a team, a business unit, or a loose collection of people in
 // an interest group. Members of these groups are modeled in the catalog as kind User.
 // https://github.com/backstage/backstage/blob/master/packages/catalog-model/src/schema/kinds/Group.v1alpha1.schema.json
 type GroupEntityV1alpha1 struct {
 	Entity
+
 	// ApiVersion is always "backstage.io/v1alpha1".
 	ApiVersion string `json:"apiVersion"`
 
@@ -44,4 +53,21 @@ type GroupEntityV1alpha1 struct {
 		// Members contains users that are members of this group. The entries of this array are entity references.
 		Members []string `json:"members,omitempty"`
 	} `json:"spec"`
+}
+
+// groupService handles communication with the group related methods of the Backstage Catalog API.
+type groupService typedEntityService[GroupEntityV1alpha1]
+
+// newGroupService returns a new instance of group-type entityService.
+func newGroupService(s *entityService) *groupService {
+	return &groupService{
+		client:  s.client,
+		apiPath: s.apiPath,
+	}
+}
+
+// Get returns a group entity identified by the name and the namespace ("default", if not specified) it belongs to.
+func (s *groupService) Get(ctx context.Context, n string, ns string) (*GroupEntityV1alpha1, *http.Response, error) {
+	cs := (typedEntityService[GroupEntityV1alpha1])(*s)
+	return cs.get(ctx, KindGroup, n, ns)
 }
