@@ -1,5 +1,9 @@
 package backstage
 
+import (
+	"net/url"
+)
+
 // catalogService handles communication with Backstage catalog API.
 type catalogService struct {
 	service
@@ -39,7 +43,8 @@ const (
 
 // newCatalogService returns a new instance of catalogService.
 func newCatalogService(c *Client) *catalogService {
-	p, _ := c.BaseURL.Parse(catalogApiPath)
+	fp, _ := url.JoinPath(c.BaseURL.Path, catalogApiPath)
+	p, _ := c.BaseURL.Parse(fp)
 
 	s := &catalogService{
 		service: service{

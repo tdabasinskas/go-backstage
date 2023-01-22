@@ -70,7 +70,11 @@ func NewClient(baseURL string, defaultNamespace string, httpClient *http.Client)
 
 // newRequest creates an API request. A relative URL can be provided in urlStr, in which case it is resolved relative to the BaseURL.
 func (c *Client) newRequest(method string, urlStr string, body interface{}) (*http.Request, error) {
-	u, err := c.BaseURL.Parse(urlStr)
+	if c.BaseURL != nil && c.BaseURL.Path != "" {
+		urlStr, _ = url.JoinPath(c.BaseURL.Path, urlStr)
+	}
+
+	url, err := url.Parse(urlStr)
 	if err != nil {
 		return nil, err
 	}
@@ -85,7 +89,8 @@ func (c *Client) newRequest(method string, urlStr string, body interface{}) (*ht
 		}
 	}
 
-	req, err := http.NewRequest(method, u.String(), buf)
+	resolved := c.BaseURL.ResolveReference(url).String()
+	req, err := http.NewRequest(method, resolved, buf)
 	if err != nil {
 		return nil, err
 	}
@@ -110,9 +115,7 @@ func (c *Client) do(ctx context.Context, req *http.Request, v interface{}) (*htt
 		return nil, err
 	}
 
-	defer func(Body io.ReadCloser) {
-		_ = Body.Close()
-	}(resp.Body)
+	defer resp.Body.Close()
 
 	decErr := json.NewDecoder(resp.Body).Decode(v)
 	if decErr == io.EOF {
