@@ -6,12 +6,12 @@ import (
 	"fmt"
 	"io"
 	"net/http"
-	"net/http/httptest"
 	"net/url"
 	"strings"
 	"testing"
 	"time"
 
+	"github.com/h2non/gock"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -114,19 +114,16 @@ func TestNewRequest_InvalidURL(t *testing.T) {
 // TestDo tests the execution of a request.
 func TestDo(t *testing.T) {
 	const path = "/foo/bar"
+	const baseURL = "http://localhost:7007/api"
 
-	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if r.Method == http.MethodGet && r.URL.Path == path && r.Header.Get("Accept") == "application/json" {
-			w.Header().Set("Content-Type", "application/json")
-			w.WriteHeader(http.StatusOK)
-			_, _ = w.Write([]byte(`{"foo":"bar"}`))
-		} else {
-			w.WriteHeader(http.StatusNotFound)
-		}
-	}))
-	defer server.Close()
+	defer gock.Off()
+	gock.New(baseURL).
+		Get(path).
+		MatchHeader("Accept", "application/json").
+		Reply(http.StatusOK).
+		JSON(map[string]string{"foo": "bar"})
 
-	u, _ := url.Parse(server.URL)
+	u, _ := url.Parse(baseURL)
 	c := &Client{
 		BaseURL: u,
 		client:  &http.Client{},
@@ -145,14 +142,14 @@ func TestDo(t *testing.T) {
 
 // TestDo_EmptyBody tests the execution of a request when the response is empty.
 func TestDo_EmptyBody(t *testing.T) {
+	const baseURL = "http://localhost:7007/api"
 	const path = "/foo/bar"
 
-	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.WriteHeader(http.StatusOK)
-	}))
-	defer server.Close()
+	defer gock.Off()
+	gock.New(baseURL).
+		Reply(http.StatusOK)
 
-	u, _ := url.Parse(server.URL)
+	u, _ := url.Parse(baseURL)
 	c := &Client{
 		BaseURL: u,
 		client:  &http.Client{},
