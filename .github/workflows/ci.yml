@@ -19,6 +19,7 @@ jobs:
     - uses: actions/setup-go@v3
       with:
         go-version: ${{ env.GO_VERSION }}
+        cache: true
 
     - name: Build
       run: go build -v ./...
@@ -33,6 +34,7 @@ jobs:
     - uses: actions/setup-go@v3
       with:
         go-version: ${{ env.GO_VERSION }}
+        cache: true
 
     - name: Test
       run: go test -v ./...
