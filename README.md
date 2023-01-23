@@ -1,5 +1,9 @@
 # go-backstage
 
+[![CI](https://github.com/tdabasinskas/go-backstage/actions/workflows/ci.yml/badge.svg)](https://github.com/tdabasinskas/go-backstage/actions/workflows/ci.yml)
+[![go-github release (latest SemVer)](https://img.shields.io/github/v/release/tdabasinskas/go-backstage?sort=semver)](https://github.com/tdabasinskas/go-backstage/releases)
+[![GoDoc](https://img.shields.io/static/v1?label=godoc&message=reference&color=blue)](https://pkg.go.dev/github.com/tdabasinskas/go-backstage/backstage)
+
 **go-backstage** is a Go client library for accessing the
 [Spotify Backstage REST API](https://backstage.io/docs/features/software-catalog/software-catalog-api).
 
