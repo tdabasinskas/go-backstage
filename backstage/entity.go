@@ -245,9 +245,8 @@ func (f *ListEntityFilter) string() string {
 
 	var b bytes.Buffer
 	for _, k := range sortedKeys {
-		v, _ := (*f)[k]
-		if v != "" {
-			b.WriteString(fmt.Sprintf("%s=%s,", k, v))
+		if (*f)[k] != "" {
+			b.WriteString(fmt.Sprintf("%s=%s,", k, (*f)[k]))
 		} else {
 			b.WriteString(fmt.Sprintf("%s,", k))
 		}
