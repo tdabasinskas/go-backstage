@@ -15,12 +15,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-
     - uses: actions/setup-go@v3
       with:
         go-version: ${{ env.GO_VERSION }}
         cache: true
-
     - name: Build
       run: go build -v ./...
 
@@ -30,28 +28,44 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-
     - uses: actions/setup-go@v3
       with:
         go-version: ${{ env.GO_VERSION }}
         cache: true
-
     - name: Lint
       uses: golangci/golangci-lint-action@v3
       with:
         version: v1.50
 
-  test:
-    name: Test
+  unit-test:
+    name: Unit Test
     needs: build
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-
     - uses: actions/setup-go@v3
       with:
         go-version: ${{ env.GO_VERSION }}
         cache: true
-
     - name: Test
       run: go test -v ./...
+
+  integration-test:
+    name: Integration Test
+    needs: [lint, unit-test]
+    runs-on: ubuntu-latest
+    services:
+      backstage:
+        image: roadiehq/community-backstage-image
+        ports:
+          - 7000
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-go@v3
+      with:
+        go-version: ${{ env.GO_VERSION }}
+        cache: true
+    - name: Run entities example
+      env:
+        BACKSTAGE_BASE_URL: http://localhost:${{ job.services.backstage.ports[7000] }}/api
+      run: go run ./examples/entities/main.go
