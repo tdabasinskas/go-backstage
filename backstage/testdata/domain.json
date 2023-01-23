@@ -1,0 +1,50 @@
+{
+  "metadata": {
+    "namespace": "default",
+    "annotations": {
+      "backstage.io/managed-by-location": "url:https://github.com/backstage/backstage/tree/master/packages/catalog-model/examples/domains/playback-domain.yaml",
+      "backstage.io/managed-by-origin-location": "url:https://github.com/backstage/backstage/blob/master/packages/catalog-model/examples/all-domains.yaml",
+      "backstage.io/view-url": "https://github.com/backstage/backstage/tree/master/packages/catalog-model/examples/domains/playback-domain.yaml",
+      "backstage.io/edit-url": "https://github.com/backstage/backstage/edit/master/packages/catalog-model/examples/domains/playback-domain.yaml",
+      "backstage.io/source-location": "url:https://github.com/backstage/backstage/tree/master/packages/catalog-model/examples/domains/"
+    },
+    "name": "playback",
+    "description": "Everything related to audio playback",
+    "uid": "449df113-ab56-4baf-8572-7ce3ad78385e",
+    "etag": "d7f17d0d1c50cab70f9f235e0d9da1dd8f582404"
+  },
+  "apiVersion": "backstage.io/v1alpha1",
+  "kind": "Domain",
+  "spec": {
+    "owner": "user:frank.tiernan"
+  },
+  "relations": [
+    {
+      "type": "hasPart",
+      "targetRef": "system:default/audio-playback",
+      "target": {
+        "kind": "system",
+        "namespace": "default",
+        "name": "audio-playback"
+      }
+    },
+    {
+      "type": "hasPart",
+      "targetRef": "system:default/podcast",
+      "target": {
+        "kind": "system",
+        "namespace": "default",
+        "name": "podcast"
+      }
+    },
+    {
+      "type": "ownedBy",
+      "targetRef": "user:default/frank.tiernan",
+      "target": {
+        "kind": "user",
+        "namespace": "default",
+        "name": "frank.tiernan"
+      }
+    }
+  ]
+}

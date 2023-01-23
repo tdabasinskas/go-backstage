@@ -1,0 +1,19 @@
+{
+  "metadata": {
+    "namespace": "default",
+    "annotations": {
+      "backstage.io/managed-by-location": "file:/private/tmp/back/examples/template/template.yaml",
+      "backstage.io/managed-by-origin-location": "file:/private/tmp/back/examples/template/template.yaml"
+    },
+    "name": "generated-1eeaf62141ef6c41d7d5ff813957a6e48a21a898",
+    "uid": "e48fecfd-89f1-4bde-8d3f-db969f087cd5",
+    "etag": "f92804659c769912a9b80530aa21574bd27dfe06"
+  },
+  "apiVersion": "backstage.io/v1alpha1",
+  "kind": "Location",
+  "spec": {
+    "type": "file",
+    "target": "/private/tmp/back/examples/template/template.yaml"
+  },
+  "relations": []
+}

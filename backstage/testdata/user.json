@@ -1,0 +1,39 @@
+{
+  "metadata": {
+    "namespace": "default",
+    "annotations": {
+      "backstage.io/managed-by-location": "file:/private/tmp/back/examples/org.yaml",
+      "backstage.io/managed-by-origin-location": "file:/private/tmp/back/examples/org.yaml"
+    },
+    "name": "guest",
+    "uid": "bef051de-cb95-4053-81e8-36a69c00db92",
+    "etag": "82d4a5bdff920d24a7d6c29c4ff507e86ee52ad3"
+  },
+  "apiVersion": "backstage.io/v1alpha1",
+  "kind": "User",
+  "spec": {
+    "memberOf": [
+      "guests"
+    ]
+  },
+  "relations": [
+    {
+      "type": "memberOf",
+      "targetRef": "group:default/guests",
+      "target": {
+        "kind": "group",
+        "namespace": "default",
+        "name": "guests"
+      }
+    },
+    {
+      "type": "ownerOf",
+      "targetRef": "template:default/example-nodejs-template",
+      "target": {
+        "kind": "template",
+        "namespace": "default",
+        "name": "example-nodejs-template"
+      }
+    }
+  ]
+}

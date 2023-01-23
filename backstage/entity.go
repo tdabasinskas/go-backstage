@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+	"sort"
 	"strings"
 )
 
@@ -150,33 +151,34 @@ const (
 
 	// OrderDescending is used to order entities in descending order.
 	OrderDescending = "desc"
-
-	// entitiesApiPath is the path to the entities API.
-	entitiesApiPath = "/entities"
 )
 
 // newEntityService returns a new instance of entityService.
 func newEntityService(s *catalogService) *entityService {
-	fp, _ := url.JoinPath(s.client.BaseURL.Path, s.apiPath.Path, entitiesApiPath)
-	p, _ := s.apiPath.Parse(fp)
+	const entitiesApiPath = "/entities"
+
+	apiPath, _ := url.JoinPath(s.apiPath, entitiesApiPath)
 
 	return &entityService{
 		client:  s.client,
-		apiPath: p,
+		apiPath: apiPath,
 	}
 }
 
 // List returns a list of entities. It can optionally be filtered by a set of conditions and limited to a set of fields.
 func (s *entityService) List(ctx context.Context, options *ListEntityOptions) ([]Entity, *http.Response, error) {
-	path := fmt.Sprintf("%s?", s.apiPath)
+	u := url.URL{
+		Path: s.apiPath,
+	}
 
+	values := u.Query()
 	if options != nil {
 		if options.Filters != nil && len(options.Filters) > 0 {
-			path += fmt.Sprintf("filter=%s&", options.Filters.string())
+			values.Add("filter", options.Filters.string())
 		}
 
 		if options.Fields != nil && len(options.Fields) > 0 {
-			path += fmt.Sprintf("fields=%s&", strings.Join(options.Fields, ","))
+			values.Add("fields", strings.Join(options.Fields, ","))
 		}
 
 		if options.Order != nil && len(options.Order) > 0 {
@@ -184,16 +186,13 @@ func (s *entityService) List(ctx context.Context, options *ListEntityOptions) ([
 				if order, err := o.string(); err != nil {
 					return nil, nil, err
 				} else {
-					path += fmt.Sprintf("order=%s&", order)
+					values.Add("order", order)
 				}
 			}
 		}
 	}
 
-	req, err := s.client.newRequest(http.MethodGet, path, nil)
-	if err != nil {
-		return nil, nil, err
-	}
+	req, _ := s.client.newRequest(http.MethodGet, fmt.Sprintf("%s?%s", u.Path, values.Encode()), nil)
 
 	var entities []Entity
 	resp, err := s.client.do(ctx, req, &entities)
@@ -203,15 +202,8 @@ func (s *entityService) List(ctx context.Context, options *ListEntityOptions) ([
 
 // Get returns a single entity by its UID.
 func (s *entityService) Get(ctx context.Context, uid string) (*Entity, *http.Response, error) {
-	path, err := url.JoinPath(s.apiPath.Path, "/by-uid/", uid)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	req, err := s.client.newRequest(http.MethodGet, path, nil)
-	if err != nil {
-		return nil, nil, err
-	}
+	path, _ := url.JoinPath(s.apiPath, "/by-uid/", uid)
+	req, _ := s.client.newRequest(http.MethodGet, path, nil)
 
 	var entity *Entity
 	resp, err := s.client.do(ctx, req, &entity)
@@ -222,15 +214,8 @@ func (s *entityService) Get(ctx context.Context, uid string) (*Entity, *http.Res
 
 // Delete deletes an orphaned entity by its UID.
 func (s *entityService) Delete(ctx context.Context, uid string) (*http.Response, error) {
-	path, err := url.JoinPath(s.apiPath.Path, "/by-uid/", uid)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := s.client.newRequest(http.MethodDelete, path, nil)
-	if err != nil {
-		return nil, err
-	}
+	path, _ := url.JoinPath(s.apiPath, "/by-uid/", uid)
+	req, _ := s.client.newRequest(http.MethodDelete, path, nil)
 
 	return s.client.do(ctx, req, nil)
 }
@@ -241,15 +226,8 @@ func (s *typedEntityService[T]) get(ctx context.Context, t string, n string, ns 
 		ns = s.client.DefaultNamespace
 	}
 
-	path, err := url.JoinPath(s.apiPath.Path, "/by-name/", t, ns, n)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	req, err := s.client.newRequest(http.MethodGet, path, nil)
-	if err != nil {
-		return nil, nil, err
-	}
+	path, _ := url.JoinPath(s.apiPath, "/by-name/", strings.ToLower(t), ns, n)
+	req, _ := s.client.newRequest(http.MethodGet, path, nil)
 
 	var entity *T
 	resp, err := s.client.do(ctx, req, &entity)
@@ -259,9 +237,15 @@ func (s *typedEntityService[T]) get(ctx context.Context, t string, n string, ns 
 
 // string returns a string representation of the ListEntityFilter.
 func (f *ListEntityFilter) string() string {
-	var b bytes.Buffer
+	sortedKeys := make([]string, 0, len(*f))
+	for key := range *f {
+		sortedKeys = append(sortedKeys, key)
+	}
+	sort.Strings(sortedKeys)
 
-	for k, v := range *f {
+	var b bytes.Buffer
+	for _, k := range sortedKeys {
+		v, _ := (*f)[k]
 		if v != "" {
 			b.WriteString(fmt.Sprintf("%s=%s,", k, v))
 		} else {

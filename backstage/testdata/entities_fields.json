@@ -1,0 +1,47 @@
+[
+  {
+    "metadata": {
+      "name": "example-website"
+    }
+  },
+  {
+    "metadata": {
+      "name": "example-grpc-api"
+    }
+  },
+  {
+    "metadata": {
+      "name": "generated-14c7491bdc912ee590f506c8726fcc37dd8f9753"
+    }
+  },
+  {
+    "metadata": {
+      "name": "example-nodejs-template"
+    }
+  },
+  {
+    "metadata": {
+      "name": "guests"
+    }
+  },
+  {
+    "metadata": {
+      "name": "examples"
+    }
+  },
+  {
+    "metadata": {
+      "name": "guest"
+    }
+  },
+  {
+    "metadata": {
+      "name": "generated-1eeaf62141ef6c41d7d5ff813957a6e48a21a898"
+    }
+  },
+  {
+    "metadata": {
+      "name": "generated-aa156660b91ff3cfa0819c08e413581e6d4e4135"
+    }
+  }
+]

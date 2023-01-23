@@ -1,0 +1,52 @@
+{
+  "metadata": {
+    "namespace": "default",
+    "annotations": {
+      "backstage.io/managed-by-location": "url:https://github.com/backstage/backstage/tree/master/packages/catalog-model/examples/resources/artists-db-resource.yaml",
+      "backstage.io/managed-by-origin-location": "url:https://github.com/backstage/backstage/blob/master/packages/catalog-model/examples/all-resources.yaml",
+      "backstage.io/view-url": "https://github.com/backstage/backstage/tree/master/packages/catalog-model/examples/resources/artists-db-resource.yaml",
+      "backstage.io/edit-url": "https://github.com/backstage/backstage/edit/master/packages/catalog-model/examples/resources/artists-db-resource.yaml",
+      "backstage.io/source-location": "url:https://github.com/backstage/backstage/tree/master/packages/catalog-model/examples/resources/"
+    },
+    "name": "artists-db",
+    "description": "Stores artist details",
+    "uid": "41dd7c83-5d8e-4fdd-9fa1-e37744d6d7b4",
+    "etag": "b9a7b577b31bd4f93a3c8c8a4c91f5e9c65cbe5c"
+  },
+  "apiVersion": "backstage.io/v1alpha1",
+  "kind": "Resource",
+  "spec": {
+    "type": "database",
+    "owner": "team-a",
+    "system": "artist-engagement-portal"
+  },
+  "relations": [
+    {
+      "type": "dependencyOf",
+      "targetRef": "component:default/artist-lookup",
+      "target": {
+        "kind": "component",
+        "namespace": "default",
+        "name": "artist-lookup"
+      }
+    },
+    {
+      "type": "ownedBy",
+      "targetRef": "group:default/team-a",
+      "target": {
+        "kind": "group",
+        "namespace": "default",
+        "name": "team-a"
+      }
+    },
+    {
+      "type": "partOf",
+      "targetRef": "system:default/artist-engagement-portal",
+      "target": {
+        "kind": "system",
+        "namespace": "default",
+        "name": "artist-engagement-portal"
+      }
+    }
+  ]
+}

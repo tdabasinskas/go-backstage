@@ -1,0 +1,46 @@
+{
+  "metadata": {
+    "namespace": "default",
+    "annotations": {
+      "backstage.io/managed-by-location": "file:/private/tmp/back/examples/entities.yaml",
+      "backstage.io/managed-by-origin-location": "file:/private/tmp/back/examples/entities.yaml"
+    },
+    "name": "examples",
+    "uid": "a9c6936d-3e13-4c5f-b7b4-b8717dd54fda",
+    "etag": "41f723cdf5f564066e2a60e2f7cb8a49e2f93a2c"
+  },
+  "apiVersion": "backstage.io/v1alpha1",
+  "kind": "System",
+  "spec": {
+    "owner": "guests"
+  },
+  "relations": [
+    {
+      "type": "hasPart",
+      "targetRef": "api:default/example-grpc-api",
+      "target": {
+        "kind": "api",
+        "namespace": "default",
+        "name": "example-grpc-api"
+      }
+    },
+    {
+      "type": "hasPart",
+      "targetRef": "component:default/example-website",
+      "target": {
+        "kind": "component",
+        "namespace": "default",
+        "name": "example-website"
+      }
+    },
+    {
+      "type": "ownedBy",
+      "targetRef": "group:default/guests",
+      "target": {
+        "kind": "group",
+        "namespace": "default",
+        "name": "guests"
+      }
+    }
+  ]
+}

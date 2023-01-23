@@ -12,7 +12,7 @@ import (
 
 type service struct {
 	client  *Client
-	apiPath *url.URL
+	apiPath string
 }
 
 const (
@@ -70,27 +70,30 @@ func NewClient(baseURL string, defaultNamespace string, httpClient *http.Client)
 
 // newRequest creates an API request. A relative URL can be provided in urlStr, in which case it is resolved relative to the BaseURL.
 func (c *Client) newRequest(method string, urlStr string, body interface{}) (*http.Request, error) {
-	if c.BaseURL != nil && c.BaseURL.Path != "" {
-		urlStr, _ = url.JoinPath(c.BaseURL.Path, urlStr)
-	}
-
-	url, err := url.Parse(urlStr)
+	u, err := url.Parse(urlStr)
 	if err != nil {
 		return nil, err
+	}
+
+	var resolvedURL string
+	if c.BaseURL != nil {
+		u.Path, _ = url.JoinPath(c.BaseURL.Path, u.Path)
+		resolvedURL = c.BaseURL.ResolveReference(u).String()
+	} else {
+		resolvedURL = u.String()
 	}
 
 	var buf io.ReadWriter
 	if body != nil {
 		buf = &bytes.Buffer{}
 		enc := json.NewEncoder(buf)
-		err := enc.Encode(body)
+		err = enc.Encode(body)
 		if err != nil {
 			return nil, err
 		}
 	}
 
-	resolved := c.BaseURL.ResolveReference(url).String()
-	req, err := http.NewRequest(method, resolved, buf)
+	req, err := http.NewRequest(method, resolvedURL, buf)
 	if err != nil {
 		return nil, err
 	}
@@ -115,7 +118,9 @@ func (c *Client) do(ctx context.Context, req *http.Request, v interface{}) (*htt
 		return nil, err
 	}
 
-	defer resp.Body.Close()
+	defer func(Body io.ReadCloser) {
+		_ = Body.Close()
+	}(resp.Body)
 
 	decErr := json.NewDecoder(resp.Body).Decode(v)
 	if decErr == io.EOF {

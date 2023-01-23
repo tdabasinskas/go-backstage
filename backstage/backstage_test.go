@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"math"
 	"net/http"
 	"net/url"
 	"strings"
@@ -69,7 +70,7 @@ func TestNewRequest_Get(t *testing.T) {
 	const userAgent = "foo"
 
 	baseURL, _ := url.Parse("http://localhost:7007/api")
-	url, _ := url.JoinPath(baseURL.String(), path)
+	u, _ := url.JoinPath(baseURL.String(), path)
 	c := &Client{
 		UserAgent: userAgent,
 		BaseURL:   baseURL,
@@ -78,17 +79,17 @@ func TestNewRequest_Get(t *testing.T) {
 
 	assert.NoError(t, err, "New request should not return an error")
 	assert.Equal(t, http.MethodGet, req.Method, "Request method should match the one provided")
-	assert.Equal(t, url, req.URL.String(), "Request URL should match the one provided")
+	assert.Equal(t, u, req.URL.String(), "Request URL should match the one provided")
 	assert.Equal(t, "application/json", req.Header.Get("Accept"), "Request should have an Accept header set to application/json")
 	assert.Equal(t, userAgent, req.Header.Get("User-Agent"), "Request should have a User-Agent header set to the one provided")
 }
 
 // TestNewRequest_Post tests the creation of a new POST request.
 func TestNewRequest_Post(t *testing.T) {
-	const url = "http://localhost:7007/api/catalog/entities"
+	const u = "http://localhost:7007/api/catalog/entities"
 
 	c := &Client{}
-	req, err := c.newRequest(http.MethodPost, url, struct {
+	req, err := c.newRequest(http.MethodPost, u, struct {
 		Foo string
 	}{
 		Foo: "Bar",
@@ -98,7 +99,7 @@ func TestNewRequest_Post(t *testing.T) {
 
 	assert.NoError(t, err, "New request should not return an error")
 	assert.Equal(t, http.MethodPost, req.Method, "Request method should match the one provided")
-	assert.Equal(t, url, req.URL.String(), "Request URL should match the one provided")
+	assert.Equal(t, u, req.URL.String(), "Request URL should match the one provided")
 	assert.Equal(t, "application/json", req.Header.Get("Accept"), "Request should have an Accept set to application/json")
 	assert.Equal(t, "application/json", req.Header.Get("Content-Type"), "Request should have a Content-Type set to application/json")
 	assert.Equal(t, fmt.Sprintf("%s\n", `{"Foo":"Bar"}`), buf.String(), "Request body should match the one provided")
@@ -109,6 +110,20 @@ func TestNewRequest_InvalidURL(t *testing.T) {
 	c := &Client{}
 	_, err := c.newRequest(http.MethodGet, "\\foo:bar", nil)
 	assert.Error(t, err, "New request should return an error when the URL is invalid")
+}
+
+// TestNewRequest_InvalidMethod tests if an error is returned when the method of the request is invalid.
+func TestNewRequest_InvalidMethod(t *testing.T) {
+	c := &Client{}
+	_, err := c.newRequest("FOO:BAR", "http://localhost", nil)
+	assert.Error(t, err, "New request should return an error when the method is invalid")
+}
+
+// TestNewRequest_InvalidBody tests if an error is returned when the body of the request is invalid.
+func TestNewRequest_InvalidBody(t *testing.T) {
+	c := &Client{}
+	_, err := c.newRequest(http.MethodGet, "", math.Inf(1))
+	assert.Error(t, err, "New request should return an error when the body is invalid")
 }
 
 // TestDo tests the execution of a request.
