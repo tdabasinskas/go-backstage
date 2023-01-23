@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [ "main" ]
 
+concurrency:
+  group: CI-${{ github.ref }}
+  cancel-in-progress: true
+
 env:
   GO_VERSION: '1.19'
 
@@ -68,4 +72,6 @@ jobs:
     - name: Run entities example
       env:
         BACKSTAGE_BASE_URL: http://localhost:${{ job.services.backstage.ports[7000] }}/api
-      run: go run ./examples/entities/main.go
+      run: |
+        sleep 30
+        go run ./examples/entities/main.go
