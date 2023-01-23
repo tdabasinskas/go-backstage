@@ -1,0 +1,6 @@
+output:
+  format: github-actions
+
+linters-settings:
+  lll:
+    line-length: 140
