@@ -28,6 +28,17 @@ func TestNewClient(t *testing.T) {
 	assert.Equal(t, nameSpace, c.DefaultNamespace, "Default namespace should match the one provided")
 }
 
+// TestNewClient_NoApiSuffix tests the creation of a new Backstage client when base URL does not contain /api suffix.
+func TestNewClient_NoApiSuffix(t *testing.T) {
+	const baseURL = "http://localhost:7007"
+
+	c, err := NewClient(baseURL, "", nil)
+
+	assert.NoError(t, err, "New client should not return an error")
+	assert.Equal(t, baseURL+"/api", c.BaseURL.String(), "Base URL should match the one provided")
+	assert.Equal(t, "default", c.DefaultNamespace, "Default namespace should be 'default'")
+}
+
 // TestNewClient tests the creation of a new Backstage client from an existing HTTP client.
 func TestNewClient_ExistingHTTPClient(t *testing.T) {
 	const baseURL = "http://localhost:7007/api"

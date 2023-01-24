@@ -42,7 +42,14 @@ type Client struct {
 // NewClient returns a new Backstage API client. If a nil httpClient is  provided, a new http.Client will be used.
 // To use API methods which require authentication, provide a http.Client that will perform the authentication.
 func NewClient(baseURL string, defaultNamespace string, httpClient *http.Client) (*Client, error) {
-	baseEndpoint, err := url.Parse(strings.TrimSuffix(baseURL, "/"))
+	const apiPath = "/api"
+
+	baseURL = strings.TrimSuffix(baseURL, "/")
+	if !strings.HasSuffix(baseURL, apiPath) {
+		baseURL += apiPath
+	}
+
+	baseEndpoint, err := url.Parse(baseURL)
 	if err != nil {
 		return nil, err
 	}
