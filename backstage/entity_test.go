@@ -33,7 +33,7 @@ func TestEntityServiceGet(t *testing.T) {
 		Reply(200).
 		File(dataFile)
 
-	c, _ := NewClient(baseURL.String(), "default", nil)
+	c, _ := NewClient(baseURL.String(), "", nil)
 	s := newEntityService(newCatalogService(c))
 
 	actual, resp, err := s.Get(context.Background(), uid)
@@ -62,7 +62,7 @@ func TestEntityServiceList(t *testing.T) {
 		Reply(200).
 		File(dataFile)
 
-	c, _ := NewClient(baseURL.String(), "default", nil)
+	c, _ := NewClient(baseURL.String(), "", nil)
 	s := newEntityService(newCatalogService(c))
 
 	actual, resp, err := s.List(context.Background(), nil)
@@ -92,7 +92,7 @@ func TestEntityServiceList_Filter(t *testing.T) {
 		Reply(200).
 		File(dataFile)
 
-	c, _ := NewClient(baseURL.String(), "default", nil)
+	c, _ := NewClient(baseURL.String(), "", nil)
 	s := newEntityService(newCatalogService(c))
 
 	actual, resp, err := s.List(context.Background(), &ListEntityOptions{
@@ -125,7 +125,7 @@ func TestEntityServiceList_Fields(t *testing.T) {
 		Reply(200).
 		File(dataFile)
 
-	c, _ := NewClient(baseURL.String(), "default", nil)
+	c, _ := NewClient(baseURL.String(), "", nil)
 	s := newEntityService(newCatalogService(c))
 
 	actual, resp, err := s.List(context.Background(), &ListEntityOptions{
@@ -159,7 +159,7 @@ func TestEntityServiceList_Order(t *testing.T) {
 		Reply(200).
 		File(dataFile)
 
-	c, _ := NewClient(baseURL.String(), "default", nil)
+	c, _ := NewClient(baseURL.String(), "", nil)
 	s := newEntityService(newCatalogService(c))
 
 	actual, resp, err := s.List(context.Background(), &ListEntityOptions{
@@ -178,7 +178,7 @@ func TestEntityServiceList_Order(t *testing.T) {
 
 // TestEntityServiceList_InvalidOrder tests the retrieval of a list when invalid order is provided.
 func TestEntityServiceList_InvalidOrder(t *testing.T) {
-	c, _ := NewClient("", "default", nil)
+	c, _ := NewClient("", "", nil)
 	s := newEntityService(newCatalogService(c))
 
 	_, _, err := s.List(context.Background(), &ListEntityOptions{
@@ -204,7 +204,7 @@ func TestEntityServiceDelete(t *testing.T) {
 		Delete(fmt.Sprintf("/catalog/entities/by-uid/%s", uid)).
 		Reply(http.StatusNoContent)
 
-	c, _ := NewClient(baseURL.String(), "default", nil)
+	c, _ := NewClient(baseURL.String(), "", nil)
 	s := newEntityService(newCatalogService(c))
 
 	resp, err := s.Delete(context.Background(), "uid")

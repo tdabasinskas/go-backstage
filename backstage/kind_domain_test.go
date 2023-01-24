@@ -32,7 +32,7 @@ func TestKindDomainGet(t *testing.T) {
 		Reply(200).
 		File(dataFile)
 
-	c, _ := NewClient(baseURL.String(), "default", nil)
+	c, _ := NewClient(baseURL.String(), "", nil)
 	s := newDomainService(&entityService{
 		client:  c,
 		apiPath: "/catalog/entities",

@@ -36,7 +36,7 @@ func TestNewClient_NoApiSuffix(t *testing.T) {
 
 	assert.NoError(t, err, "New client should not return an error")
 	assert.Equal(t, baseURL+"/api", c.BaseURL.String(), "Base URL should match the one provided")
-	assert.Equal(t, "default", c.DefaultNamespace, "Default namespace should be 'default'")
+	assert.Equal(t, DefaultNamespaceName, c.DefaultNamespace, "Default namespace should be 'default'")
 }
 
 // TestNewClient tests the creation of a new Backstage client from an existing HTTP client.
@@ -72,7 +72,7 @@ func TestNewClient_DefaultNamespace(t *testing.T) {
 	c, err := NewClient("http://localhost:7007/api/", "", nil)
 
 	assert.NoError(t, err, "New client should not return an error")
-	assert.Equal(t, defaultNamespaceName, c.DefaultNamespace, "Default namespace should be set to default if not provided")
+	assert.Equal(t, DefaultNamespaceName, c.DefaultNamespace, "Default namespace should be set to default if not provided")
 }
 
 // TestNewRequest_Get tests the creation of a new GET request.

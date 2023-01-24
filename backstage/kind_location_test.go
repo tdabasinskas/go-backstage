@@ -32,7 +32,7 @@ func TestKindLocationGet(t *testing.T) {
 		Reply(200).
 		File(dataFile)
 
-	c, _ := NewClient(baseURL.String(), "default", nil)
+	c, _ := NewClient(baseURL.String(), "", nil)
 	s := newLocationService(&entityService{
 		client:  c,
 		apiPath: "/catalog/entities",

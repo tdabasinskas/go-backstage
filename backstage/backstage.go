@@ -16,9 +16,9 @@ type service struct {
 }
 
 const (
+	DefaultNamespaceName = "default"
 	userAgent            = "go-backstage"
 	contentTypeJSON      = "application/json"
-	defaultNamespaceName = "default"
 )
 
 // Client manages communication with the Backstage API.
@@ -60,7 +60,7 @@ func NewClient(baseURL string, defaultNamespace string, httpClient *http.Client)
 
 	ns := defaultNamespace
 	if defaultNamespace == "" {
-		ns = defaultNamespaceName
+		ns = DefaultNamespaceName
 	}
 
 	c := &Client{
