@@ -207,7 +207,7 @@ func TestEntityServiceDelete(t *testing.T) {
 	c, _ := NewClient(baseURL.String(), "", nil)
 	s := newEntityService(newCatalogService(c))
 
-	resp, err := s.Delete(context.Background(), "uid")
+	resp, err := s.Delete(context.Background(), uid)
 	assert.NoError(t, err, "Delete should not return an error")
 	assert.NotEmpty(t, resp, "Response should not be empty")
 	assert.EqualValues(t, http.StatusNoContent, resp.StatusCode, "Response status code should match the one from the server")

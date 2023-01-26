@@ -75,3 +75,9 @@ jobs:
       run: |
         sleep 30
         go run ./examples/entities/main.go
+    - name: Run locations example
+      env:
+        BACKSTAGE_BASE_URL: http://localhost:${{ job.services.backstage.ports[7000] }}/api
+      run: |
+        sleep 30
+        go run ./examples/locations/main.go

@@ -2,7 +2,10 @@ package backstage
 
 import (
 	"context"
+	"errors"
+	"fmt"
 	"net/http"
+	"net/url"
 )
 
 // KindLocation defines name for location kind.
@@ -34,10 +37,35 @@ type LocationEntityV1alpha1 struct {
 		// entity itself.
 		Targets []string `json:"targets,omitempty"`
 
-		// Presence describes whether the presence of the location target is required and it should be considered an error if it
+		// Presence describes whether the presence of the location target is required, and it should be considered an error if it
 		// can not be found.
 		Presence string `json:"presence,omitempty"`
 	} `json:"spec"`
+}
+
+// LocationCreateResponse defines POST response from location endpoints.
+type LocationCreateResponse struct {
+	// Exists is only set in dryRun mode.
+	Exists bool `json:"exists,omitempty"`
+	// Location contains details of created location.
+	Location *LocationResponse `json:"location,omitempty"`
+	// Entities is a list of entities that were discovered from the created location.
+	Entities []Entity `json:"entities"`
+}
+
+// LocationResponse defines GET response to get single location from location endpoints.
+type LocationResponse struct {
+	// ID of the location.
+	ID string `json:"id"`
+	// Type of the location.
+	Type string `json:"type"`
+	// Target of the location.
+	Target string `json:"target"`
+}
+
+// LocationListResponse defines GET response to get all locations from location endpoints.
+type LocationListResponse struct {
+	Data *LocationResponse `json:"data"`
 }
 
 // locationService handles communication with the location related methods of the Backstage Catalog API.
@@ -55,4 +83,60 @@ func newLocationService(s *entityService) *locationService {
 func (s *locationService) Get(ctx context.Context, n string, ns string) (*LocationEntityV1alpha1, *http.Response, error) {
 	cs := (typedEntityService[LocationEntityV1alpha1])(*s)
 	return cs.get(ctx, KindLocation, n, ns)
+}
+
+// Create creates a new location.
+func (s *locationService) Create(ctx context.Context, target string, dryRun bool) (*LocationCreateResponse, *http.Response, error) {
+	if target == "" {
+		return nil, nil, errors.New("target cannot be empty")
+	}
+
+	path, _ := url.JoinPath(s.apiPath, "../locations")
+	req, _ := s.client.newRequest(http.MethodPost, fmt.Sprintf("%s?dryRun=%t", path, dryRun), struct {
+		Target string `json:"target"`
+		Type   string `json:"type"`
+	}{
+		Target: target,
+		Type:   "url",
+	})
+
+	var entity *LocationCreateResponse
+	resp, err := s.client.do(ctx, req, &entity)
+
+	return entity, resp, err
+
+}
+
+// List returns all locations.
+func (s *locationService) List(ctx context.Context) ([]LocationListResponse, *http.Response, error) {
+	path, _ := url.JoinPath(s.apiPath, "../locations")
+	req, _ := s.client.newRequest(http.MethodGet, path, nil)
+
+	var entities []LocationListResponse
+	resp, err := s.client.do(ctx, req, &entities)
+
+	return entities, resp, err
+}
+
+// GetByID returns a location identified by its ID.
+func (s *locationService) GetByID(ctx context.Context, id string) (*LocationResponse, *http.Response, error) {
+	path, _ := url.JoinPath(s.apiPath, "../locations", id)
+	req, _ := s.client.newRequest(http.MethodGet, path, nil)
+
+	var entity *LocationResponse
+	resp, err := s.client.do(ctx, req, &entity)
+
+	return entity, resp, err
+}
+
+// DeleteByID deletes a location identified by its ID.
+func (s *locationService) DeleteByID(ctx context.Context, id string) (*http.Response, error) {
+	if id == "" {
+		return nil, errors.New("id cannot be empty")
+	}
+
+	path, _ := url.JoinPath(s.apiPath, "../locations", id)
+	req, _ := s.client.newRequest(http.MethodDelete, path, nil)
+
+	return s.client.do(ctx, req, nil)
 }
