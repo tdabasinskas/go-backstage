@@ -5,9 +5,9 @@
 [![GoDoc](https://img.shields.io/static/v1?label=godoc&message=reference&color=blue)](https://pkg.go.dev/github.com/tdabasinskas/go-backstage/backstage)
 
 **go-backstage** is a Go client library for accessing the
-[Spotify Backstage REST API](https://backstage.io/docs/features/software-catalog/software-catalog-api).
+[Backstage REST API](https://backstage.io/docs/features/software-catalog/software-catalog-api).
 
-The library provides a convenient and easy-to-use interface to access and manipulate data from the Spotify Backstage. This library handles
+The library provides a convenient and easy-to-use interface to access and manipulate data from the Backstage. This library handles
 the low-level details of making HTTP requests and parsing responses, allowing developers to focus on building their application logic.
 
 ## Installation
