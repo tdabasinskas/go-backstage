@@ -53,7 +53,7 @@ type LocationCreateResponse struct {
 	Entities []Entity `json:"entities"`
 }
 
-// LocationResponse defines GET response from location endpoints.
+// LocationResponse defines GET response to get single location from location endpoints.
 type LocationResponse struct {
 	// ID of the location.
 	ID string `json:"id"`
@@ -61,6 +61,11 @@ type LocationResponse struct {
 	Type string `json:"type"`
 	// Target of the location.
 	Target string `json:"target"`
+}
+
+// LocationListResponse defines GET response to get all locations from location endpoints.
+type LocationListResponse struct {
+	Data *LocationResponse `json:"data"`
 }
 
 // locationService handles communication with the location related methods of the Backstage Catalog API.
@@ -100,6 +105,17 @@ func (s *locationService) Create(ctx context.Context, target string, dryRun bool
 
 	return entity, resp, err
 
+}
+
+// List returns all locations.
+func (s *locationService) List(ctx context.Context) ([]LocationListResponse, *http.Response, error) {
+	path, _ := url.JoinPath(s.apiPath, "../locations")
+	req, _ := s.client.newRequest(http.MethodGet, path, nil)
+
+	var entities []LocationListResponse
+	resp, err := s.client.do(ctx, req, &entities)
+
+	return entities, resp, err
 }
 
 // GetByID returns a location identified by its ID.

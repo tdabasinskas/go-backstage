@@ -157,6 +157,37 @@ func TestKindLocationGetByID(t *testing.T) {
 	assert.EqualValues(t, &expected, actual, "Response body should match the one from the server")
 }
 
+// TestKindLocationList tests functionality of getting all locations.
+func TestKindLocationList(t *testing.T) {
+	const dataFile = "testdata/locations.json"
+
+	var expected []LocationListResponse
+	expectedData, _ := os.ReadFile(dataFile)
+	err := json.Unmarshal(expectedData, &expected)
+
+	assert.FileExists(t, dataFile, "Test data file should exist")
+	assert.NoError(t, err, "Unmarshal should not return an error")
+
+	baseURL, _ := url.Parse("https://foo:1234/api")
+	defer gock.Off()
+	gock.New(baseURL.String()).
+		MatchHeader("Accept", "application/json").
+		Get("/catalog/locations").
+		Reply(200).
+		File(dataFile)
+
+	c, _ := NewClient(baseURL.String(), "", nil)
+	s := newLocationService(&entityService{
+		client:  c,
+		apiPath: "/catalog/entities",
+	})
+
+	actual, resp, err := s.List(context.Background())
+	assert.NoError(t, err, "Get should not return an error")
+	assert.NotEmpty(t, resp, "Response should not be empty")
+	assert.EqualValues(t, expected, actual, "Response body should match the one from the server")
+}
+
 // TestEntityServiceDelete tests the deletion of an entity.
 func TestKindLocationDeleteByID(t *testing.T) {
 	const id = "id"
