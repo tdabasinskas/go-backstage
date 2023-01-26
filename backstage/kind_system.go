@@ -23,7 +23,7 @@ type SystemEntityV1alpha1 struct {
 
 	// Spec is the specification data describing the system itself.
 	Spec struct {
-		// Owner is an entity reference to the owner of the component.
+		// Owner is an entity reference to the owner of the system.
 		Owner string `json:"owner"`
 
 		// Domain is an entity reference to the domain that the system belongs to.
