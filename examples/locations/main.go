@@ -3,13 +3,14 @@ package main
 import (
 	"context"
 	"log"
+	"net/http"
 	"os"
 
 	"github.com/tdabasinskas/go-backstage/backstage"
 )
 
 func main() {
-	const locationTarget = "https://github.com/tdabasinskas/backstage-go/test"
+	const locationTarget = "https://github.com/backstage/backstage/blob/master/catalog-info.yaml"
 
 	baseURL, ok := os.LookupEnv("BACKSTAGE_BASE_URL")
 	if !ok {
@@ -20,18 +21,18 @@ func main() {
 	c, _ := backstage.NewClient(baseURL, "default", nil)
 
 	log.Println("Creating new location in a dry-run mode...")
-	if location, _, err := c.Catalog.Locations.Create(context.Background(), locationTarget, false); err != nil {
+	if location, _, err := c.Catalog.Locations.Create(context.Background(), locationTarget, true); err != nil {
 		log.Fatal(err)
 	} else {
 		log.Printf("Location to be created: %v", location)
 	}
 
 	log.Println("Creating new location...")
-	created, _, err := c.Catalog.Locations.Create(context.Background(), locationTarget, true)
+	created, resp, err := c.Catalog.Locations.Create(context.Background(), locationTarget, false)
 	if err != nil {
 		log.Fatal(err)
 	} else {
-		log.Printf("Location created: %v", created)
+		log.Printf("Location created: %v, %v", created, resp)
 	}
 
 	log.Println("Getting created location...")
@@ -52,6 +53,10 @@ func main() {
 	if resp, err := c.Catalog.Locations.DeleteByID(context.Background(), created.Location.ID); err != nil {
 		log.Fatal(err)
 	} else {
-		log.Printf("Delete response: %v", resp)
+		if resp.StatusCode != http.StatusNoContent {
+			log.Fatalf("Delete not successful: %s", resp.Status)
+		} else {
+			log.Printf("Delete response: %v", resp)
+		}
 	}
 }
