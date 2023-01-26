@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	const locationTarget = "https://github.com/backstage/backstage/blob/master/catalog-info.yaml"
+	const locationTarget = "https://github.com/tdabasinskas/go-backstage/tree/main/backstage/testdata"
 
 	baseURL, ok := os.LookupEnv("BACKSTAGE_BASE_URL")
 	if !ok {
@@ -28,25 +28,37 @@ func main() {
 	}
 
 	log.Println("Creating new location...")
-	created, resp, err := c.Catalog.Locations.Create(context.Background(), locationTarget, false)
+	created, _, err := c.Catalog.Locations.Create(context.Background(), locationTarget, false)
 	if err != nil {
 		log.Fatal(err)
 	} else {
-		log.Printf("Location created: %v, %v", created, resp)
+		if created.Location.Target != locationTarget {
+			log.Fatalf("Created location target does not match: %v", created.Location.Target)
+		} else {
+			log.Printf("Location created: %v", created)
+		}
 	}
 
 	log.Println("Getting created location...")
 	if location, _, err := c.Catalog.Locations.GetByID(context.Background(), created.Location.ID); err != nil {
 		log.Fatal(err)
 	} else {
-		log.Printf("Retrieved created location: %v", location)
+		if location.Target != locationTarget {
+			log.Fatalf("Retrieved location target does not match: %v", location.Target)
+		} else {
+			log.Printf("Retrieved created location: %v", location)
+		}
 	}
 
 	log.Println("Listing all locations...")
 	if locations, _, err := c.Catalog.Locations.List(context.Background()); err != nil {
 		log.Fatal(err)
 	} else {
-		log.Printf("Locations: %v", locations)
+		if len(locations) == 0 {
+			log.Fatal("No locations found")
+		} else {
+			log.Printf("Locations: %v", locations)
+		}
 	}
 
 	log.Println("Deleting location..")

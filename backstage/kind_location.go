@@ -37,7 +37,7 @@ type LocationEntityV1alpha1 struct {
 		// entity itself.
 		Targets []string `json:"targets,omitempty"`
 
-		// Presence describes whether the presence of the location target is required and it should be considered an error if it
+		// Presence describes whether the presence of the location target is required, and it should be considered an error if it
 		// can not be found.
 		Presence string `json:"presence,omitempty"`
 	} `json:"spec"`
@@ -48,7 +48,7 @@ type LocationCreateResponse struct {
 	// Exists is only set in dryRun mode.
 	Exists bool `json:"exists,omitempty"`
 	// Location contains details of created location.
-	Location *LocationResponse `json:"location,omitempty"`
+	Location LocationResponse `json:"location,omitempty"`
 	// Entities is a list of entities that were discovered from the created location.
 	Entities []Entity `json:"entities"`
 }
