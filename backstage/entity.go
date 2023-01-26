@@ -3,6 +3,7 @@ package backstage
 import (
 	"bytes"
 	"context"
+	"errors"
 	"fmt"
 	"net/http"
 	"net/url"
@@ -214,6 +215,10 @@ func (s *entityService) Get(ctx context.Context, uid string) (*Entity, *http.Res
 
 // Delete deletes an orphaned entity by its UID.
 func (s *entityService) Delete(ctx context.Context, uid string) (*http.Response, error) {
+	if uid == "" {
+		return nil, errors.New("uid cannot be empty")
+	}
+
 	path, _ := url.JoinPath(s.apiPath, "/by-uid/", uid)
 	req, _ := s.client.newRequest(http.MethodDelete, path, nil)
 
