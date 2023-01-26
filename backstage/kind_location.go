@@ -48,7 +48,7 @@ type LocationCreateResponse struct {
 	// Exists is only set in dryRun mode.
 	Exists bool `json:"exists,omitempty"`
 	// Location contains details of created location.
-	Location LocationResponse `json:"location,omitempty"`
+	Location *LocationResponse `json:"location,omitempty"`
 	// Entities is a list of entities that were discovered from the created location.
 	Entities []Entity `json:"entities"`
 }
