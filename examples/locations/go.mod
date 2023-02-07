@@ -1,6 +1,6 @@
 module examplelocations
 
-go 1.19
+go 1.20
 
 replace github.com/tdabasinskas/go-backstage => ../..
 
