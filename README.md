@@ -2,7 +2,6 @@
 
 [![CI](https://github.com/tdabasinskas/go-backstage/actions/workflows/ci.yml/badge.svg)](https://github.com/tdabasinskas/go-backstage/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/tdabasinskas/go-backstage/branch/main/graph/badge.svg?token=4CVNSX7UOZ)](https://codecov.io/gh/tdabasinskas/go-backstage)
-[![Release](https://img.shields.io/github/v/release/tdabasinskas/go-backstage?sort=semver)](https://github.com/tdabasinskas/go-backstage/releases)
 [![Go Reference](https://pkg.go.dev/badge/github.com/tdabasinskas/go-backstage/backstage.svg)](https://pkg.go.dev/github.com/tdabasinskas/go-backstage/backstage)
 
 **go-backstage** is a Go client library for accessing the
