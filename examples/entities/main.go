@@ -2,10 +2,9 @@ package main
 
 import (
 	"context"
+	"github.com/tdabasinskas/go-backstage/v2/backstage"
 	"log"
 	"os"
-
-	"github.com/tdabasinskas/go-backstage/backstage"
 )
 
 func main() {
