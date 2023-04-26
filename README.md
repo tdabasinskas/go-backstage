@@ -49,7 +49,7 @@ The client than can be used to access different parts of the API, e.g. get the l
 
 ```go
 entities, response, err := c.Catalog.Entities.s.List(context.Background(), &ListEntityOptions{
-        Filters: ListEntityFilter{},
+        Filters: []string{},
         Fields:  []string{},
         Order:   []ListEntityOrder{{ Direction: OrderDescending, Field: "metadata.name" },
     },
