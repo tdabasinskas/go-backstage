@@ -15,7 +15,7 @@ the low-level details of making HTTP requests and parsing responses, allowing de
 With Go installed, run the following to add the package to your project, along with its dependencies:
 
 ```bash
-go get github.com/tdabasinskas/go-backstage/v2@v2
+go get github.com/tdabasinskas/go-backstage/v2
 ```
 
 Alternatively, you can add import the package as following and run `go get` to install it:
