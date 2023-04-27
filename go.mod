@@ -1,4 +1,4 @@
-module github.com/tdabasinskas/go-backstage
+module github.com/tdabasinskas/go-backstage/v2
 
 go 1.20
 

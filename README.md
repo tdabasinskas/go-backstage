@@ -15,13 +15,13 @@ the low-level details of making HTTP requests and parsing responses, allowing de
 With Go installed, run the following to add the package to your project, along with its dependencies:
 
 ```bash
-go get github.com/tdabasinskas/go-backstage@v1
+go get github.com/tdabasinskas/go-backstage/v2
 ```
 
 Alternatively, you can add import the package as following and run `go get` to install it:
 
 ```go
-import "github.com/tdabasinskas/go-backstage"
+import "github.com/tdabasinskas/go-backstage/v2"
 ```
 
 ## Usage
@@ -29,7 +29,7 @@ import "github.com/tdabasinskas/go-backstage"
 Add the package to your project as following:
 
 ```go
-import "github.com/tdabasinskas/go-backstage"
+import "github.com/tdabasinskas/go-backstage/v2"
 ```
 
 Once imported, create a new Backstage API client to access different parts of Backstage API:
@@ -49,7 +49,7 @@ The client than can be used to access different parts of the API, e.g. get the l
 
 ```go
 entities, response, err := c.Catalog.Entities.s.List(context.Background(), &ListEntityOptions{
-        Filters: ListEntityFilter{},
+        Filters: []string{},
         Fields:  []string{},
         Order:   []ListEntityOrder{{ Direction: OrderDescending, Field: "metadata.name" },
     },
