@@ -96,9 +96,7 @@ func TestEntityServiceList_Filter(t *testing.T) {
 	s := newEntityService(newCatalogService(c))
 
 	actual, resp, err := s.List(context.Background(), &ListEntityOptions{
-		Filters: ListEntityFilter{
-			"kind": "User",
-		},
+		Filters: []string{"kind=User"},
 	})
 	assert.NoError(t, err, "Get should not return an error")
 	assert.NotEmpty(t, resp, "Response should not be empty")
@@ -129,7 +127,6 @@ func TestEntityServiceList_Fields(t *testing.T) {
 	s := newEntityService(newCatalogService(c))
 
 	actual, resp, err := s.List(context.Background(), &ListEntityOptions{
-		Filters: ListEntityFilter{},
 		Fields: []string{
 			"metadata.name",
 		},
@@ -163,7 +160,6 @@ func TestEntityServiceList_Order(t *testing.T) {
 	s := newEntityService(newCatalogService(c))
 
 	actual, resp, err := s.List(context.Background(), &ListEntityOptions{
-		Filters: ListEntityFilter{},
 		Order: []ListEntityOrder{
 			{
 				Direction: OrderDescending,
@@ -182,7 +178,6 @@ func TestEntityServiceList_InvalidOrder(t *testing.T) {
 	s := newEntityService(newCatalogService(c))
 
 	_, _, err := s.List(context.Background(), &ListEntityOptions{
-		Filters: ListEntityFilter{},
 		Order: []ListEntityOrder{
 			{
 				Direction: "InvalidOrder",
@@ -211,51 +206,6 @@ func TestEntityServiceDelete(t *testing.T) {
 	assert.NoError(t, err, "Delete should not return an error")
 	assert.NotEmpty(t, resp, "Response should not be empty")
 	assert.EqualValues(t, http.StatusNoContent, resp.StatusCode, "Response status code should match the one from the server")
-}
-
-// TestListEntityFilterString tests if list entity filter string is correctly generated.
-func TestListEntityFilterString(t *testing.T) {
-	tests := []struct {
-		name     string
-		filter   ListEntityFilter
-		expected string
-	}{
-		{
-			name:     "empty filter",
-			filter:   ListEntityFilter{},
-			expected: "",
-		},
-		{
-			name: "filter with one key-value pair",
-			filter: ListEntityFilter{
-				"key1": "value1",
-			},
-			expected: "key1=value1",
-		},
-		{
-			name: "filter with one key and no value",
-			filter: ListEntityFilter{
-				"key1": "",
-			},
-			expected: "key1",
-		},
-		{
-			name: "filter with multiple key-value pairs",
-			filter: ListEntityFilter{
-				"key1": "value1",
-				"key2": "value2",
-				"key3": "",
-			},
-			expected: "key1=value1,key2=value2,key3",
-		},
-	}
-
-	for _, test := range tests {
-		t.Run(test.name, func(t *testing.T) {
-			actual := test.filter.string()
-			assert.Equal(t, test.expected, actual, "List entity filter string should match expected value")
-		})
-	}
 }
 
 // TestListEntityOrderString tests if list entity order string is correctly generated.

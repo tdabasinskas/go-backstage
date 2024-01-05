@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/tdabasinskas/go-backstage/backstage"
+	"github.com/tdabasinskas/go-backstage/v2/backstage"
 )
 
 func main() {

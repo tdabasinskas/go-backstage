@@ -2,10 +2,9 @@ package main
 
 import (
 	"context"
+	"github.com/tdabasinskas/go-backstage/v2/backstage"
 	"log"
 	"os"
-
-	"github.com/tdabasinskas/go-backstage/backstage"
 )
 
 func main() {
@@ -26,13 +25,24 @@ func main() {
 
 	log.Println("Getting component entities...")
 	if entities, _, err := c.Catalog.Entities.List(context.Background(), &backstage.ListEntityOptions{
-		Filters: backstage.ListEntityFilter{
-			"kind": "component",
-		},
+		Filters: []string{"kind=component"},
 	}); err != nil {
 		log.Fatal(err)
 	} else {
 		log.Printf("Component entities: %v", entities)
+	}
+
+	log.Println("Getting location, API and component entities...")
+	if entities, _, err := c.Catalog.Entities.List(context.Background(), &backstage.ListEntityOptions{
+		Filters: []string{
+			"kind=component",
+			"kind=location",
+			"kind=api",
+		},
+	}); err != nil {
+		log.Fatal(err)
+	} else {
+		log.Printf("Component, location and API entities: %v", entities)
 	}
 
 	log.Println("Getting specific component entity by UID...")

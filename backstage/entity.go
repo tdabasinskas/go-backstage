@@ -1,13 +1,11 @@
 package backstage
 
 import (
-	"bytes"
 	"context"
 	"errors"
 	"fmt"
 	"net/http"
 	"net/url"
-	"sort"
 	"strings"
 )
 
@@ -110,9 +108,6 @@ type EntityRelationTarget struct {
 	Namespace string `json:"namespace"`
 }
 
-// ListEntityFilter defines a condition that can be used to filter entities.
-type ListEntityFilter map[string]string
-
 // ListEntityOrder defines a condition that can be used to order entities.
 type ListEntityOrder struct {
 	// Direction is the direction to order by.
@@ -125,7 +120,7 @@ type ListEntityOrder struct {
 // ListEntityOptions specifies the optional parameters to the catalogService.List method.
 type ListEntityOptions struct {
 	// Filters is a set of conditions that can be used to filter entities.
-	Filters ListEntityFilter
+	Filters []string
 
 	// Fields is a set of fields that can be used to limit the response.
 	Fields []string
@@ -174,8 +169,8 @@ func (s *entityService) List(ctx context.Context, options *ListEntityOptions) ([
 
 	values := u.Query()
 	if options != nil {
-		if options.Filters != nil && len(options.Filters) > 0 {
-			values.Add("filter", options.Filters.string())
+		for _, f := range options.Filters {
+			values.Add("filter", f)
 		}
 
 		if options.Fields != nil && len(options.Fields) > 0 {
@@ -238,26 +233,6 @@ func (s *typedEntityService[T]) get(ctx context.Context, t string, n string, ns 
 	resp, err := s.client.do(ctx, req, &entity)
 
 	return entity, resp, err
-}
-
-// string returns a string representation of the ListEntityFilter.
-func (f *ListEntityFilter) string() string {
-	sortedKeys := make([]string, 0, len(*f))
-	for key := range *f {
-		sortedKeys = append(sortedKeys, key)
-	}
-	sort.Strings(sortedKeys)
-
-	var b bytes.Buffer
-	for _, k := range sortedKeys {
-		if (*f)[k] != "" {
-			b.WriteString(fmt.Sprintf("%s=%s,", k, (*f)[k]))
-		} else {
-			b.WriteString(fmt.Sprintf("%s,", k))
-		}
-	}
-
-	return strings.TrimSuffix(b.String(), ",")
 }
 
 // string returns a string representation of the ListEntityOrder.

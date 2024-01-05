@@ -1,10 +1,10 @@
-module github.com/tdabasinskas/go-backstage
+module github.com/tdabasinskas/go-backstage/v2
 
 go 1.21
 
 require (
 	github.com/h2non/gock v1.2.0
-	github.com/stretchr/testify v1.8.2
+	github.com/stretchr/testify v1.8.4
 )
 
 require (
