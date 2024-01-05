@@ -1,6 +1,6 @@
 module github.com/tdabasinskas/go-backstage/v2
 
-go 1.20
+go 1.21
 
 require (
 	github.com/h2non/gock v1.2.0
