@@ -21,22 +21,25 @@ type ApiEntityV1alpha1 struct {
 	Kind string `json:"kind"`
 
 	// Spec is the specification data describing the API itself.
-	Spec struct {
-		// Type of the API definition.
-		Type string `json:"type"`
+	Spec *ApiEntityV1alpha1Spec `json:"spec"`
+}
 
-		// Lifecycle state of the API.
-		Lifecycle string `json:"lifecycle"`
+// ApiEntityV1alpha1Spec describes the specification data describing the API itself.
+type ApiEntityV1alpha1Spec struct {
+	// Type of the API definition.
+	Type string `json:"type"`
 
-		// Owner is entity reference to the owner of the API.
-		Owner string `json:"owner"`
+	// Lifecycle state of the API.
+	Lifecycle string `json:"lifecycle"`
 
-		// Definition of the API, based on the format defined by the type.
-		Definition string `json:"definition"`
+	// Owner is entity reference to the owner of the API.
+	Owner string `json:"owner"`
 
-		// System is entity reference to the system that the API belongs to.
-		System string `json:"system,omitempty"`
-	} `json:"spec"`
+	// Definition of the API, based on the format defined by the type.
+	Definition string `json:"definition"`
+
+	// System is entity reference to the system that the API belongs to.
+	System string `json:"system,omitempty"`
 }
 
 // apiService handles communication with the API related methods of the Backstage Catalog API.

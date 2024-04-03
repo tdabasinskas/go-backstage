@@ -21,31 +21,34 @@ type ComponentEntityV1alpha1 struct {
 	Kind string `json:"kind"`
 
 	// Spec is the specification data describing the component itself.
-	Spec struct {
-		// Type of component.
-		Type string `json:"type"`
+	Spec *ComponentEntityV1alpha1Spec `json:"spec"`
+}
 
-		// Lifecycle state of the component.
-		Lifecycle string `json:"lifecycle"`
+// ComponentEntityV1alpha1Spec describes the specification data describing the component itself.
+type ComponentEntityV1alpha1Spec struct {
+	// Type of component.
+	Type string `json:"type"`
 
-		// Owner is an entity reference to the owner of the component.
-		Owner string `json:"owner"`
+	// Lifecycle state of the component.
+	Lifecycle string `json:"lifecycle"`
 
-		// SubcomponentOf is an entity reference to another component of which the component is a part.
-		SubcomponentOf string `json:"subcomponentOf,omitempty"`
+	// Owner is an entity reference to the owner of the component.
+	Owner string `json:"owner"`
 
-		// ProvidesApis is an array of entity references to the APIs that are provided by the component.
-		ProvidesApis []string `json:"providesApis,omitempty"`
+	// SubcomponentOf is an entity reference to another component of which the component is a part.
+	SubcomponentOf string `json:"subcomponentOf,omitempty"`
 
-		// ConsumesApis is an array of entity references to the APIs that are consumed by the component.
-		ConsumesApis []string `json:"consumesApis,omitempty"`
+	// ProvidesApis is an array of entity references to the APIs that are provided by the component.
+	ProvidesApis []string `json:"providesApis,omitempty"`
 
-		// DependsOn is an array of entity references to the components and resources that the component depends on.
-		DependsOn []string `json:"dependsOn,omitempty"`
+	// ConsumesApis is an array of entity references to the APIs that are consumed by the component.
+	ConsumesApis []string `json:"consumesApis,omitempty"`
 
-		// System is an array of references to other entities that the component depends on to function.
-		System string `json:"system,omitempty"`
-	} `json:"spec"`
+	// DependsOn is an array of entity references to the components and resources that the component depends on.
+	DependsOn []string `json:"dependsOn,omitempty"`
+
+	// System is an array of references to other entities that the component depends on to function.
+	System string `json:"system,omitempty"`
 }
 
 // componentService handles communication with the component related methods of the Backstage Catalog API.

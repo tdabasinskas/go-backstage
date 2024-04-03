@@ -21,19 +21,22 @@ type ResourceEntityV1alpha1 struct {
 	Kind string `json:"kind"`
 
 	// Spec is the specification data describing the resource itself.
-	Spec struct {
-		// Type of resource.
-		Type string `json:"type"`
+	Spec *ResourceEntityV1alpha1Spec `json:"spec"`
+}
 
-		// Owner is an entity reference to the owner of the resource.
-		Owner string `json:"owner"`
+// ResourceEntityV1alpha1Spec describes the specification data describing the resource itself.
+type ResourceEntityV1alpha1Spec struct {
+	// Type of resource.
+	Type string `json:"type"`
 
-		// DependsOn is an array of references to other entities that the resource depends on to function.
-		DependsOn []string `json:"dependsOn,omitempty"`
+	// Owner is an entity reference to the owner of the resource.
+	Owner string `json:"owner"`
 
-		// System is an entity reference to the system that the resource belongs to.
-		System string `json:"system,omitempty"`
-	} `json:"spec"`
+	// DependsOn is an array of references to other entities that the resource depends on to function.
+	DependsOn []string `json:"dependsOn,omitempty"`
+
+	// System is an entity reference to the system that the resource belongs to.
+	System string `json:"system,omitempty"`
 }
 
 // resourceService handles communication with the resource related methods of the Backstage Catalog API.

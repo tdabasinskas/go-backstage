@@ -21,10 +21,13 @@ type DomainEntityV1alpha1 struct {
 	Kind string `json:"kind"`
 
 	// Spec is the specification data describing the domain itself.
-	Spec struct {
-		// Owner is an entity reference to the owner of the component.
-		Owner string `json:"owner"`
-	} `json:"spec"`
+	Spec *DomainEntityV1alpha1Spec `json:"spec"`
+}
+
+// DomainEntityV1alpha1Spec describes the specification data describing the domain itself.
+type DomainEntityV1alpha1Spec struct {
+	// Owner is an entity reference to the owner of the component.
+	Owner string `json:"owner"`
 }
 
 // domainService handles communication with the domain related methods of the Backstage Catalog API.

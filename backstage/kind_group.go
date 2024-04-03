@@ -21,38 +21,41 @@ type GroupEntityV1alpha1 struct {
 	Kind string `json:"kind"`
 
 	// Spec is the specification data describing the group itself.
-	Spec struct {
-		// Type of group. There is currently no enforced set of values for this field, so it is left up to the adopting
-		// organization to choose a nomenclature that matches their org hierarchy.
-		Type string `json:"type"`
+	Spec *GroupEntityV1alpha1Spec `json:"spec"`
+}
 
-		// Profile information about the group, mainly for display purposes. All fields of this structure are also optional.
-		// The email would be a group email of some form, that the group may wish to be used for contacting them.
-		// The picture is expected to be a URL pointing to an image that's representative of the group, and that a browser could
-		// fetch and render on a group page or similar.
-		Profile struct {
-			// DisplayName to present to users.
-			DisplayName string `json:"displayName,omitempty"`
+// GroupEntityV1alpha1Spec describes the specification data describing the group itself.
+type GroupEntityV1alpha1Spec struct {
+	// Type of group. There is currently no enforced set of values for this field, so it is left up to the adopting
+	// organization to choose a nomenclature that matches their org hierarchy.
+	Type string `json:"type"`
 
-			// Email where this entity can be reached.
-			Email string `json:"email,omitempty"`
+	// Profile information about the group, mainly for display purposes. All fields of this structure are also optional.
+	// The email would be a group email of some form, that the group may wish to be used for contacting them.
+	// The picture is expected to be a URL pointing to an image that's representative of the group, and that a browser could
+	// fetch and render on a group page or similar.
+	Profile struct {
+		// DisplayName to present to users.
+		DisplayName string `json:"displayName,omitempty"`
 
-			// Picture is a URL of an image that represents this entity.
-			Picture string `json:"picture,omitempty"`
-		} `json:"profile,omitempty"`
+		// Email where this entity can be reached.
+		Email string `json:"email,omitempty"`
 
-		// Parent is the immediate parent group in the hierarchy, if any. Not all groups must have a parent; the catalog supports
-		// multi-root hierarchies. Groups may however not have more than one parent. This field is an entity reference.
-		Parent string `json:"parent,omitempty"`
+		// Picture is a URL of an image that represents this entity.
+		Picture string `json:"picture,omitempty"`
+	} `json:"profile,omitempty"`
 
-		// Children contains immediate child groups of this group in the hierarchy (whose parent field points to this group).
-		// The list must be present, but may be empty if there are no child groups. The items are not guaranteed to be ordered in
-		// any particular way. The entries of this array are entity references.
-		Children []string `json:"children"`
+	// Parent is the immediate parent group in the hierarchy, if any. Not all groups must have a parent; the catalog supports
+	// multi-root hierarchies. Groups may however not have more than one parent. This field is an entity reference.
+	Parent string `json:"parent,omitempty"`
 
-		// Members contains users that are members of this group. The entries of this array are entity references.
-		Members []string `json:"members,omitempty"`
-	} `json:"spec"`
+	// Children contains immediate child groups of this group in the hierarchy (whose parent field points to this group).
+	// The list must be present, but may be empty if there are no child groups. The items are not guaranteed to be ordered in
+	// any particular way. The entries of this array are entity references.
+	Children []string `json:"children"`
+
+	// Members contains users that are members of this group. The entries of this array are entity references.
+	Members []string `json:"members,omitempty"`
 }
 
 // groupService handles communication with the group related methods of the Backstage Catalog API.
