@@ -22,13 +22,16 @@ type SystemEntityV1alpha1 struct {
 	Kind string `json:"kind"`
 
 	// Spec is the specification data describing the system itself.
-	Spec struct {
-		// Owner is an entity reference to the owner of the system.
-		Owner string `json:"owner"`
+	Spec *SystemEntityV1alpha1Spec `json:"spec"`
+}
 
-		// Domain is an entity reference to the domain that the system belongs to.
-		Domain string `json:"domain,omitempty"`
-	} `json:"spec"`
+// SystemEntityV1alpha1Spec describes the specification data describing the system itself.
+type SystemEntityV1alpha1Spec struct {
+	// Owner is an entity reference to the owner of the system.
+	Owner string `json:"owner"`
+
+	// Domain is an entity reference to the domain that the system belongs to.
+	Domain string `json:"domain,omitempty"`
 }
 
 // systemService handles communication with the system methods of the Backstage Catalog API.
