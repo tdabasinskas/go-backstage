@@ -26,6 +26,9 @@ type Entity struct {
 
 	// Relations that this entity has with other entities.
 	Relations []EntityRelation `json:"relations,omitempty"`
+
+	// The current status of the entity, as claimed by various sources.
+	Status *EntityStatus `json:"status,omitempty"`
 }
 
 // EntityMeta represents metadata fields common to all versions/kinds of entity.
@@ -106,6 +109,46 @@ type EntityRelationTarget struct {
 
 	// Namespace that the target entity belongs to.
 	Namespace string `json:"namespace"`
+}
+
+// EntityStatus informs current status of the entity, as claimed by various sources.
+// https://github.com/backstage/backstage/blob/master/packages/catalog-model/src/schema/shared/common.schema.json
+type EntityStatus struct {
+	// A specific status item on a well known format.
+	Items []EntityStatusItem `json:"items,omitempty"`
+}
+
+// EntityStatusItem contains a specific status item on a well known format.
+// https://github.com/backstage/backstage/blob/master/packages/catalog-model/src/schema/shared/common.schema.json
+type EntityStatusItem struct {
+	// The item type
+	Type string `json:"type"`
+
+	// The status level / severity of the status item.
+	// Either ["info", "warning", "error"]
+	Level string `json:"level"`
+
+	// A brief message describing the status, intended for human consumption.
+	Message string `json:"message"`
+
+	// An optional serialized error object related to the status.
+	Error *EntityStatusItemError `json:"error"`
+}
+
+// EntityStatusItemError has aA serialized error object.
+// https://github.com/backstage/backstage/blob/master/packages/catalog-model/src/schema/shared/common.schema.json
+type EntityStatusItemError struct {
+	// The type name of the error"
+	Name string `json:"name"`
+
+	// The message of the error
+	Message string `json:"message"`
+
+	// An error code associated with the error
+	Code *string `json:"code"`
+
+	// An error stack trace
+	Stack *string `json:"stack"`
 }
 
 // ListEntityOrder defines a condition that can be used to order entities.

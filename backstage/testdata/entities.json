@@ -421,5 +421,44 @@
     "relations":[
 
     ]
+  },
+  {
+    "metadata":{
+      "namespace":"default",
+      "annotations":{
+        "backstage.io/managed-by-location":"file:/private/tmp/back/examples/org.yaml",
+        "backstage.io/managed-by-origin-location":"file:/private/tmp/back/examples/org.yaml"
+      },
+      "name":"generated-aa156660b91ff3cfa0819c08e413581e6d4e4136",
+      "uid":"f5e4edef-f547-430d-8fee-13f4919888b7",
+      "etag":"d9b5d5f05fe7901d90c68b62a9b2d30b3f9f0f87"
+    },
+    "apiVersion":"backstage.io/v1alpha1",
+    "kind":"Location",
+    "spec":{
+      "type":"file",
+      "target":"/private/tmp/back/examples/org.yaml"
+    },
+    "relations":[
+
+    ],
+    "status": {
+      "items": [
+        {
+          "type": "backstage.io/catalog-processing",
+          "level": "error",
+          "message": "SomeError: it broke",
+          "error": {
+            "name": "SomeError",
+            "message": "Error message",
+            "cause": {
+              "name": "Error",
+              "message": "error message",
+              "stack": "stack trace"
+            }
+          }
+        }
+      ]
+    }
   }
 ]
