@@ -17,58 +17,58 @@ type LocationEntityV1alpha1 struct {
 	Entity
 
 	// ApiVersion is always "backstage.io/v1alpha1".
-	ApiVersion string `json:"apiVersion"`
+	ApiVersion string `json:"apiVersion" yaml:"apiVersion"`
 
 	// Kind is always "Location".
-	Kind string `json:"kind"`
+	Kind string `json:"kind" yaml:"kind"`
 
 	// Spec is the specification data describing the location itself.
-	Spec *LocationEntityV1alpha1Spec `json:"spec"`
+	Spec *LocationEntityV1alpha1Spec `json:"spec" yaml:"spec"`
 }
 
 // LocationEntityV1alpha1Spec describes the specification data describing the location itself.
 type LocationEntityV1alpha1Spec struct {
 	// Type is the single location type, that's common to the targets specified in the spec. If it is left out, it is inherited
 	// from the location type that originally read the entity data.
-	Type string `json:"type,omitempty"`
+	Type string `json:"type,omitempty" yaml:"type,omitempty"`
 
 	// Target as a string. Can be either an absolute path/URL (depending on the type), or a relative path
 	// such as./details/catalog-info.yaml which is resolved relative to the location of this Location entity itself.
-	Target string `json:"target,omitempty"`
+	Target string `json:"target,omitempty" yaml:"target,omitempty"`
 
 	// Targets contains a list of targets as strings. They can all be either absolute paths/URLs (depending on the type),
 	// or relative paths such as ./details/catalog-info.yaml which are resolved relative to the location of this Location
 	// entity itself.
-	Targets []string `json:"targets,omitempty"`
+	Targets []string `json:"targets,omitempty" yaml:"targets,omitempty"`
 
 	// Presence describes whether the presence of the location target is required, and it should be considered an error if it
 	// can not be found.
-	Presence string `json:"presence,omitempty"`
+	Presence string `json:"presence,omitempty" yaml:"presence,omitempty"`
 }
 
 // LocationCreateResponse defines POST response from location endpoints.
 type LocationCreateResponse struct {
 	// Exists is only set in dryRun mode.
-	Exists bool `json:"exists,omitempty"`
+	Exists bool `json:"exists,omitempty" yaml:"exists,omitempty"`
 	// Location contains details of created location.
-	Location *LocationResponse `json:"location,omitempty"`
+	Location *LocationResponse `json:"location,omitempty" yaml:"location,omitempty"`
 	// Entities is a list of entities that were discovered from the created location.
-	Entities []Entity `json:"entities"`
+	Entities []Entity `json:"entities" yaml:"entities"`
 }
 
 // LocationResponse defines GET response to get single location from location endpoints.
 type LocationResponse struct {
 	// ID of the location.
-	ID string `json:"id"`
+	ID string `json:"id" yaml:"id"`
 	// Type of the location.
-	Type string `json:"type"`
+	Type string `json:"type" yaml:"type"`
 	// Target of the location.
-	Target string `json:"target"`
+	Target string `json:"target" yaml:"target"`
 }
 
 // LocationListResponse defines GET response to get all locations from location endpoints.
 type LocationListResponse struct {
-	Data *LocationResponse `json:"data"`
+	Data *LocationResponse `json:"data" yaml:"data"`
 }
 
 // locationService handles communication with the location related methods of the Backstage Catalog API.
@@ -96,8 +96,8 @@ func (s *locationService) Create(ctx context.Context, target string, dryRun bool
 
 	path, _ := url.JoinPath(s.apiPath, "../locations")
 	req, _ := s.client.newRequest(http.MethodPost, fmt.Sprintf("%s?dryRun=%t", path, dryRun), struct {
-		Target string `json:"target"`
-		Type   string `json:"type"`
+		Target string `json:"target" yaml:"target"`
+		Type   string `json:"type" yaml:"type"`
 	}{
 		Target: target,
 		Type:   "url",

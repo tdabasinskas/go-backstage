@@ -15,19 +15,19 @@ type DomainEntityV1alpha1 struct {
 	Entity
 
 	// ApiVersion is always "backstage.io/v1alpha1".
-	ApiVersion string `json:"apiVersion"`
+	ApiVersion string `json:"apiVersion" yaml:"apiVersion"`
 
 	// Kind is always "Domain".
-	Kind string `json:"kind"`
+	Kind string `json:"kind" yaml:"kind"`
 
 	// Spec is the specification data describing the domain itself.
-	Spec *DomainEntityV1alpha1Spec `json:"spec"`
+	Spec *DomainEntityV1alpha1Spec `json:"spec" yaml:"spec"`
 }
 
 // DomainEntityV1alpha1Spec describes the specification data describing the domain itself.
 type DomainEntityV1alpha1Spec struct {
 	// Owner is an entity reference to the owner of the component.
-	Owner string `json:"owner"`
+	Owner string `json:"owner" yaml:"owner"`
 }
 
 // domainService handles communication with the domain related methods of the Backstage Catalog API.

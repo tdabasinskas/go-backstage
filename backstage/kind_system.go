@@ -16,22 +16,22 @@ type SystemEntityV1alpha1 struct {
 	Entity
 
 	// ApiVersion is always "backstage.io/v1alpha1".
-	ApiVersion string `json:"apiVersion"`
+	ApiVersion string `json:"apiVersion" yaml:"apiVersion"`
 
 	// Kind is always "System".
-	Kind string `json:"kind"`
+	Kind string `json:"kind" yaml:"kind"`
 
 	// Spec is the specification data describing the system itself.
-	Spec *SystemEntityV1alpha1Spec `json:"spec"`
+	Spec *SystemEntityV1alpha1Spec `json:"spec" yaml:"spec"`
 }
 
 // SystemEntityV1alpha1Spec describes the specification data describing the system itself.
 type SystemEntityV1alpha1Spec struct {
 	// Owner is an entity reference to the owner of the system.
-	Owner string `json:"owner"`
+	Owner string `json:"owner" yaml:"owner"`
 
 	// Domain is an entity reference to the domain that the system belongs to.
-	Domain string `json:"domain,omitempty"`
+	Domain string `json:"domain,omitempty" yaml:"domain,omitempty"`
 }
 
 // systemService handles communication with the system methods of the Backstage Catalog API.
