@@ -15,28 +15,28 @@ type ResourceEntityV1alpha1 struct {
 	Entity
 
 	// ApiVersion is always "backstage.io/v1alpha1".
-	ApiVersion string `json:"apiVersion"`
+	ApiVersion string `json:"apiVersion" yaml:"apiVersion"`
 
 	// Kind is always "Resource".
-	Kind string `json:"kind"`
+	Kind string `json:"kind" yaml:"kind"`
 
 	// Spec is the specification data describing the resource itself.
-	Spec *ResourceEntityV1alpha1Spec `json:"spec"`
+	Spec *ResourceEntityV1alpha1Spec `json:"spec" yaml:"spec"`
 }
 
 // ResourceEntityV1alpha1Spec describes the specification data describing the resource itself.
 type ResourceEntityV1alpha1Spec struct {
 	// Type of resource.
-	Type string `json:"type"`
+	Type string `json:"type" yaml:"type"`
 
 	// Owner is an entity reference to the owner of the resource.
-	Owner string `json:"owner"`
+	Owner string `json:"owner" yaml:"owner"`
 
 	// DependsOn is an array of references to other entities that the resource depends on to function.
-	DependsOn []string `json:"dependsOn,omitempty"`
+	DependsOn []string `json:"dependsOn,omitempty" yaml:"dependsOn,omitempty"`
 
 	// System is an entity reference to the system that the resource belongs to.
-	System string `json:"system,omitempty"`
+	System string `json:"system,omitempty" yaml:"system,omitempty"`
 }
 
 // resourceService handles communication with the resource related methods of the Backstage Catalog API.

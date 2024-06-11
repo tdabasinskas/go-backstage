@@ -15,13 +15,13 @@ type UserEntityV1alpha1 struct {
 	Entity
 
 	// ApiVersion is always "backstage.io/v1alpha1".
-	ApiVersion string `json:"apiVersion"`
+	ApiVersion string `json:"apiVersion" yaml:"apiVersion"`
 
 	// Kind is always "User".
-	Kind string `json:"kind"`
+	Kind string `json:"kind" yaml:"kind"`
 
 	// Spec is the specification data describing the user itself.
-	Spec *UserEntityV1alpha1Spec `json:"spec"`
+	Spec *UserEntityV1alpha1Spec `json:"spec" yaml:"spec"`
 }
 
 // UserEntityV1alpha1Spec describes the specification data describing the user itself.
@@ -32,19 +32,19 @@ type UserEntityV1alpha1Spec struct {
 	// fetch and render on a profile page or similar.
 	Profile struct {
 		// DisplayName is a simple display name to present to users.
-		DisplayName string `json:"displayName,omitempty"`
+		DisplayName string `json:"displayName,omitempty" yaml:"displayName,omitempty"`
 
 		// Email where this user can be reached.
-		Email string `json:"email,omitempty"`
+		Email string `json:"email,omitempty" yaml:"email,omitempty"`
 
 		// Picture is a URL of an image that represents this user.
-		Picture string `json:"picture,omitempty"`
-	} `json:"profile,omitempty"`
+		Picture string `json:"picture,omitempty" yaml:"picture,omitempty"`
+	} `json:"profile,omitempty" yaml:"profile,omitempty"`
 
 	// MemberOf is the list of groups that the user is a direct member of (i.e., no transitive memberships are listed here).
 	// The list must be present, but may be empty if the user is not member of any groups. The items are not guaranteed to be
 	// ordered in any particular way. The entries of this array are entity references.
-	MemberOf []string `json:"memberOf,omitempty"`
+	MemberOf []string `json:"memberOf,omitempty" yaml:"memberOf,omitempty"`
 }
 
 // userService handles communication with the user methods of the Backstage Catalog API.

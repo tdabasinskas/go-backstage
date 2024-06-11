@@ -15,31 +15,31 @@ type ApiEntityV1alpha1 struct {
 	Entity
 
 	// ApiVersion is always "backstage.io/v1alpha1".
-	ApiVersion string `json:"apiVersion"`
+	ApiVersion string `json:"apiVersion" yaml:"apiVersion"`
 
 	// Kind is always "API".
-	Kind string `json:"kind"`
+	Kind string `json:"kind" yaml:"kind"`
 
 	// Spec is the specification data describing the API itself.
-	Spec *ApiEntityV1alpha1Spec `json:"spec"`
+	Spec *ApiEntityV1alpha1Spec `json:"spec" yaml:"spec"`
 }
 
 // ApiEntityV1alpha1Spec describes the specification data describing the API itself.
 type ApiEntityV1alpha1Spec struct {
 	// Type of the API definition.
-	Type string `json:"type"`
+	Type string `json:"type" yaml:"type"`
 
 	// Lifecycle state of the API.
-	Lifecycle string `json:"lifecycle"`
+	Lifecycle string `json:"lifecycle" yaml:"lifecycle"`
 
 	// Owner is entity reference to the owner of the API.
-	Owner string `json:"owner"`
+	Owner string `json:"owner" yaml:"owner"`
 
 	// Definition of the API, based on the format defined by the type.
-	Definition string `json:"definition"`
+	Definition string `json:"definition" yaml:"definition"`
 
 	// System is entity reference to the system that the API belongs to.
-	System string `json:"system,omitempty"`
+	System string `json:"system,omitempty" yaml:"system,omitempty"`
 }
 
 // apiService handles communication with the API related methods of the Backstage Catalog API.
