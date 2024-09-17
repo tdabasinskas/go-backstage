@@ -216,11 +216,11 @@ func (s *entityService) List(ctx context.Context, options *ListEntityOptions) ([
 			values.Add("filter", f)
 		}
 
-		if options.Fields != nil && len(options.Fields) > 0 {
+		if len(options.Fields) > 0 {
 			values.Add("fields", strings.Join(options.Fields, ","))
 		}
 
-		if options.Order != nil && len(options.Order) > 0 {
+		if len(options.Order) > 0 {
 			for _, o := range options.Order {
 				if order, err := o.string(); err != nil {
 					return nil, nil, err
