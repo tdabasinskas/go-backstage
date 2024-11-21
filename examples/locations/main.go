@@ -6,11 +6,11 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/tdabasinskas/go-backstage/v2/backstage"
+	"github.com/datolabs-io/go-backstage/v3"
 )
 
 func main() {
-	const locationTarget = "https://github.com/tdabasinskas/go-backstage/tree/main/backstage/testdata"
+	const locationTarget = "https://github.com/datolabs-io/go-backstage/tree/main/backstage/testdata"
 
 	baseURL, ok := os.LookupEnv("BACKSTAGE_BASE_URL")
 	if !ok {

@@ -2,9 +2,10 @@ package main
 
 import (
 	"context"
-	"github.com/tdabasinskas/go-backstage/v2/backstage"
 	"log"
 	"os"
+
+	"github.com/datolabs-io/go-backstage/v3"
 )
 
 func main() {
