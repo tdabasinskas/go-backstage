@@ -1,8 +1,8 @@
 # go-backstage
 
-[![CI](https://github.com/tdabasinskas/go-backstage/actions/workflows/ci.yml/badge.svg)](https://github.com/tdabasinskas/go-backstage/actions/workflows/ci.yml)
-[![codecov](https://codecov.io/gh/tdabasinskas/go-backstage/branch/main/graph/badge.svg?token=4CVNSX7UOZ)](https://codecov.io/gh/tdabasinskas/go-backstage)
-[![Go Reference](https://pkg.go.dev/badge/github.com/tdabasinskas/go-backstage/backstage.svg)](https://pkg.go.dev/github.com/tdabasinskas/go-backstage/backstage)
+[![CI](https://github.com/datolabs-io/go-backstage/actions/workflows/ci.yml/badge.svg)](https://github.com/datolabs-io/go-backstage/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/datolabs-io/go-backstage/branch/main/graph/badge.svg?token=4CVNSX7UOZ)](https://codecov.io/gh/datolabs-io/go-backstage)
+[![Go Reference](https://pkg.go.dev/badge/github.com/datolabs-io/go-backstage/backstage.svg)](https://pkg.go.dev/github.com/datolabs-io/go-backstage/backstage)
 
 **go-backstage** is a Go client library for accessing the
 [Backstage REST API](https://backstage.io/docs/features/software-catalog/software-catalog-api).
@@ -15,13 +15,13 @@ the low-level details of making HTTP requests and parsing responses, allowing de
 With Go installed, run the following to add the package to your project, along with its dependencies:
 
 ```bash
-go get github.com/tdabasinskas/go-backstage/v2
+go get github.com/datolabs-io/go-backstage/v3
 ```
 
 Alternatively, you can add import the package as following and run `go get` to install it:
 
 ```go
-import "github.com/tdabasinskas/go-backstage/v2"
+import "github.com/datolabs-io/go-backstage/v3"
 ```
 
 ## Usage
@@ -29,7 +29,7 @@ import "github.com/tdabasinskas/go-backstage/v2"
 Add the package to your project as following:
 
 ```go
-import "github.com/tdabasinskas/go-backstage/v2"
+import "github.com/datolabs-io/go-backstage/v3"
 ```
 
 Once imported, create a new Backstage API client to access different parts of Backstage API:
