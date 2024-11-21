@@ -37,6 +37,7 @@ Once imported, create a new Backstage API client to access different parts of Ba
 ```go
 client, err := backstage.NewClient(baseURL, "default", nil)
 ```
+
 If you want to use a custom HTTP client (for example, to handle authentication, retries or different timeouts), you can pass it as the
 third argument:
 
