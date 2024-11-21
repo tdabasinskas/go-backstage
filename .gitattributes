@@ -1,4 +1,4 @@
 * text=auto eol=lf
 
 go.sum              linguist-generated=true
-backstage/testdata/ linguist-generated=true
+testdata/           linguist-generated=true
