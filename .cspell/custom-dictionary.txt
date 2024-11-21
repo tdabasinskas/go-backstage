@@ -5,3 +5,15 @@ davecgh
 pmezard
 parth
 difflib
+gopkg
+exampleentities
+examplelocations
+gomod
+dryrun
+dylib
+testdata
+Exampler
+tiernan
+covermode
+coverprofile
+roadiehq

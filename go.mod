@@ -1,4 +1,4 @@
-module github.com/tdabasinskas/go-backstage/v2
+module github.com/datolabs-io/go-backstage/v3
 
 go 1.23
 
