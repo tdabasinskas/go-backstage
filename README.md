@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/datolabs-io/go-backstage/actions/workflows/ci.yml/badge.svg)](https://github.com/datolabs-io/go-backstage/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/datolabs-io/go-backstage/branch/main/graph/badge.svg?token=4CVNSX7UOZ)](https://codecov.io/gh/datolabs-io/go-backstage)
-[![Go Reference](https://pkg.go.dev/badge/github.com/datolabs-io/go-backstage/backstage.svg)](https://pkg.go.dev/github.com/datolabs-io/go-backstage/backstage)
+[![Go Reference](https://pkg.go.dev/badge/github.com/datolabs-io/go-backstage/v3.svg)](https://pkg.go.dev/github.com/datolabs-io/go-backstage/v3)
 
 **go-backstage** is a Go client library for accessing the
 [Backstage REST API](https://backstage.io/docs/features/software-catalog/software-catalog-api).
