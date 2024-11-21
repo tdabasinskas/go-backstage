@@ -48,7 +48,7 @@ func TestKindLocationGet(t *testing.T) {
 // TestKindLocationCreateByID tests functionality of creating a new location.
 func TestKindLocationCreateByID(t *testing.T) {
 	const dataFile = "testdata/location_create.json"
-	const target = "https://github.com/tdabasinskas/go/backstage/test"
+	const target = "https://github.com/datolabs-io/go-backstage/test"
 
 	expected := LocationCreateResponse{}
 	expectedData, _ := os.ReadFile(dataFile)
@@ -88,7 +88,7 @@ func TestKindLocationCreateByID(t *testing.T) {
 // TestKindLocationCreateByID_DryRun tests functionality of creating a new location.
 func TestKindLocationCreateByID_DryRun(t *testing.T) {
 	const dataFile = "testdata/location_create_dryrun.json"
-	const target = "https://github.com/tdabasinskas/go/backstage/test"
+	const target = "https://github.com/datolabs-io/go-backstage/test"
 
 	expected := LocationCreateResponse{}
 	expectedData, _ := os.ReadFile(dataFile)
