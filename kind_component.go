@@ -42,7 +42,7 @@ type ComponentEntityV1alpha1Spec struct {
 	ProvidesApis []string `json:"providesApis,omitempty" yaml:"providesApis,omitempty"`
 
 	// ConsumesApis is an array of entity references to the APIs that are consumed by the component.
-	ConsumesApis []string `json:"consumesApis,omitempty" yaml:"onsumesApis,omitempty"`
+	ConsumesApis []string `json:"consumesApis,omitempty" yaml:"consumesApis,omitempty"`
 
 	// DependsOn is an array of entity references to the components and resources that the component depends on.
 	DependsOn []string `json:"dependsOn,omitempty" yaml:"dependsOn,omitempty"`
