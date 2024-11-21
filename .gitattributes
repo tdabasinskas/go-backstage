@@ -1,4 +1,5 @@
 * text=auto eol=lf
 
-go.sum              linguist-generated=true
-testdata/           linguist-generated=true
+go.sum                        linguist-generated=true
+testdata/*                    linguist-generated=true
+.cspell/custom-dictionary.txt linguist-generated=true
